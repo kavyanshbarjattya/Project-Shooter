@@ -552,8 +552,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _joystick: {fileID: 1178636357}
-  _movementSpeed: 4
-  _deadZone: 0.05
+  _movementSpeed: 12
+  _deadZone: 0.1
 --- !u!212 &699203266
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -619,9 +619,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 231157179}
   - {fileID: 1441862561}
   - {fileID: 1475279956}
+  - {fileID: 231157179}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &699203268
