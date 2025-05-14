@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
     {
         if (pool != null)
         {
-            pool.ReturnEnemy(enemyType, gameObject);
+            pool.Return(enemyType, gameObject);
         }
         else
         {

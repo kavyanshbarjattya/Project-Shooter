@@ -2,75 +2,76 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class EnemyType
+public class EnemyEntry
 {
-    public string name;
+    public string enemyName;
     public GameObject prefab;
     public int initialPoolSize = 10;
 }
 
 public class Enemy_Pool : MonoBehaviour
 {
-    public List<EnemyType> enemyTypes;
+    public List<EnemyEntry> enemyEntries;
 
-    private Dictionary<string, Queue<GameObject>> poolDict;
-    private Dictionary<string, GameObject> prefabLookup;
+    private readonly Dictionary<string, Queue<GameObject>> pool = new();
+    private readonly Dictionary<string, GameObject> prefabMap = new();
 
     void Awake()
     {
-        poolDict = new Dictionary<string, Queue<GameObject>>(enemyTypes.Count);
-        prefabLookup = new Dictionary<string, GameObject>(enemyTypes.Count);
-
-        foreach (var type in enemyTypes)
+        foreach (var entry in enemyEntries)
         {
-            prefabLookup[type.name] = type.prefab;
+            string key = entry.enemyName.Trim().ToLower();
+            prefabMap[key] = entry.prefab;
+            pool[key] = new Queue<GameObject>();
 
-            Queue<GameObject> enemyQueue = new Queue<GameObject>(type.initialPoolSize);
-
-            for (int i = 0; i < type.initialPoolSize; i++)
+            for (int i = 0; i < entry.initialPoolSize; i++)
             {
-                GameObject obj = Instantiate(type.prefab, transform); // Set pool as parent
+                GameObject obj = Instantiate(entry.prefab);
                 obj.SetActive(false);
-                enemyQueue.Enqueue(obj);
+                pool[key].Enqueue(obj);
             }
-
-            poolDict[type.name] = enemyQueue;
         }
     }
 
-    public GameObject GetEnemy(string typeName)
+    public GameObject Get(string enemyName)
     {
-        if (!poolDict.TryGetValue(typeName, out var enemyQueue)) return null;
+        string key = enemyName.Trim().ToLower();
 
-        GameObject enemy;
-
-        if (enemyQueue.Count > 0)
+        if (!pool.ContainsKey(key))
         {
-            enemy = enemyQueue.Dequeue();
-        }
-        else
-        {
-            if (!prefabLookup.TryGetValue(typeName, out var prefab)) return null;
-
-            enemy = Instantiate(prefab, transform); // Parent for cleaner hierarchy
+            Debug.LogWarning($"Enemy type '{enemyName}' not found in pool.");
+            return null;
         }
 
-        if (!enemy.activeInHierarchy)
-            enemy.SetActive(true);
-        // Assign type & pool
-        Enemy enemyScript = enemy.GetComponent<Enemy>();
-        if (enemyScript != null)
+        if (pool[key].Count > 0)
         {
-            enemyScript.Initialize(typeName, this);
+            GameObject obj = pool[key].Dequeue();
+            obj.SetActive(true);
+            return obj;
         }
-        return enemy;
+
+        GameObject newObj = Instantiate(prefabMap[key]);
+        return newObj;
     }
 
-    public void ReturnEnemy(string typeName, GameObject enemy)
+    public void Return(string enemyName, GameObject obj)
     {
-        if (enemy == null || !poolDict.ContainsKey(typeName)) return;
+        string key = enemyName.Trim().ToLower();
 
-        enemy.SetActive(false);
-        poolDict[typeName].Enqueue(enemy);
+        if (!pool.ContainsKey(key))
+        {
+            Debug.LogWarning($"Trying to return unknown enemy type '{enemyName}' to pool.");
+            Destroy(obj);
+            return;
+        }
+
+        obj.SetActive(false);
+        pool[key].Enqueue(obj);
+    }
+
+    public GameObject GetPrefab(string enemyName)
+    {
+        string key = enemyName.Trim().ToLower();
+        return prefabMap.ContainsKey(key) ? prefabMap[key] : null;
     }
 }

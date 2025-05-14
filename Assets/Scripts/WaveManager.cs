@@ -24,7 +24,7 @@ public class WaveManager : MonoBehaviour
     public float waveDelay = 5f;
 
     [Header("References")]
-    public Enemy_Pool enemyPool;
+    public Enemy_Pool enemyPool;                   // Assign in Inspector
 
     private int currentWaveIndex = 0;
     private WaitForSeconds waitBetweenWaves;
@@ -54,24 +54,41 @@ public class WaveManager : MonoBehaviour
 
     IEnumerator SpawnWave(Wave wave)
     {
-        for (int i = 0; i < wave.enemies.Count; i++)
+        // Flatten enemy list into a spawn queue
+        List<EnemySpawnInfo> spawnQueue = new List<EnemySpawnInfo>();
+        foreach (var info in wave.enemies)
         {
-            EnemySpawnInfo info = wave.enemies[i];
-            WaitForSeconds spawnDelay = info.spawnDelay > 0f ? new WaitForSeconds(info.spawnDelay) : shortSpawnDelay;
-
-            for (int j = 0; j < info.count; j++)
+            for (int i = 0; i < info.count; i++)
             {
-                Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-
-                GameObject enemy = enemyPool.GetEnemy(info.enemyType);
-                if (enemy != null)
+                spawnQueue.Add(new EnemySpawnInfo
                 {
-                    enemy.transform.position = spawnPoint.position;
-                    enemy.SetActive(true);
-                }
-
-                yield return spawnDelay;
+                    enemyType = info.enemyType,
+                    spawnDelay = info.spawnDelay
+                });
             }
+        }
+
+        // Shuffle enemy spawn order
+        for (int i = 0; i < spawnQueue.Count; i++)
+        {
+            int randIndex = Random.Range(i, spawnQueue.Count);
+            var temp = spawnQueue[i];
+            spawnQueue[i] = spawnQueue[randIndex];
+            spawnQueue[randIndex] = temp;
+        }
+
+        // Spawn all enemies
+        foreach (var info in spawnQueue)
+        {
+            Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+            GameObject enemy = enemyPool.Get(info.enemyType);
+            if (enemy != null)
+            {
+                enemy.transform.position = spawnPoint.position;
+                enemy.SetActive(true);
+            }
+
+            yield return info.spawnDelay > 0f ? new WaitForSeconds(info.spawnDelay) : shortSpawnDelay;
         }
     }
 
@@ -84,9 +101,8 @@ public class WaveManager : MonoBehaviour
 
         int difficulty = currentWaveIndex + 1;
 
-        for (int i = 0; i < baseWave.enemies.Count; i++)
+        foreach (var baseInfo in baseWave.enemies)
         {
-            EnemySpawnInfo baseInfo = baseWave.enemies[i];
             EnemySpawnInfo newInfo = new EnemySpawnInfo
             {
                 enemyType = baseInfo.enemyType,
