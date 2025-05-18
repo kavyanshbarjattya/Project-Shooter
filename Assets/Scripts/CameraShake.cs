@@ -3,6 +3,7 @@ using UnityEngine;
 public class CameraShake : MonoBehaviour
 {
     public static CameraShake Instance;
+    public bool _canShake;
 
     [SerializeField] private float shakeDuration = 0.1f;
     [SerializeField] private float shakeMagnitude = 0.1f;
@@ -24,14 +25,16 @@ public class CameraShake : MonoBehaviour
 
     void Update()
     {
-        if (currentShakeTime > 0)
+        if (currentShakeTime > 0 && _canShake)
         {
             transform.localPosition = initialPosition + (Vector3)(Random.insideUnitCircle * shakeMagnitude);
             currentShakeTime -= Time.deltaTime;
+            _canShake = false;
         }
         else
         {
             transform.localPosition = initialPosition;
+            _canShake = true;
         }
     }
 

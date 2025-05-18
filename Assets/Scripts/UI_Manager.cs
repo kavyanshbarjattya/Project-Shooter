@@ -10,9 +10,9 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] GameObject _mainMenu, _mapSelect, _gunSelect , _settingPanel;
     [SerializeField] GameObject _loaderCanvas;
     [SerializeField] Slider _progressBar;
-    [SerializeField] string _sceneName;
     [SerializeField] AsyncSceneLoader _sceneLoader;
-    [SerializeField] GameObject[] _maps;
+
+    private string _sceneName;
 
     public void PlayBtn()
     {

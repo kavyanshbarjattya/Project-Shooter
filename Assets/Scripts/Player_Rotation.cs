@@ -6,7 +6,7 @@ public class Player_Rotation : MonoBehaviour
     [SerializeField] private float fireRate = 0.2f;
     [SerializeField] private Transform firePoint;
     [SerializeField] private Bullet_Pool bulletPool;
-    [SerializeField] private SpriteRenderer _gunSprite;
+    [SerializeField] private Transform _gunHolder;
     [Range(0f, 1f)]
     [SerializeField] private float _deadZone = 0.1f;
 
@@ -26,11 +26,11 @@ public class Player_Rotation : MonoBehaviour
 
             if(h < 0)
             {
-                _gunSprite.flipY = true;
+                _gunHolder.localScale = new Vector3(_gunHolder.localScale.x,-0.3f, _gunHolder.localScale.z);
             }
             else
             {
-                _gunSprite.flipY = false;
+                _gunHolder.localScale = new Vector3(_gunHolder.localScale.x, 0.3f, _gunHolder.localScale.z);
             }
 
             if (fireCooldown <= 0f)
