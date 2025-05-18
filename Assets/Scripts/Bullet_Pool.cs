@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Bullet_Pool : MonoBehaviour
 {
-    [SerializeField] GameObject bulletPrefab;
+    public GameObject bulletPrefab;
     [SerializeField] int poolSize = 20;
 
     private List<GameObject> bullets;
