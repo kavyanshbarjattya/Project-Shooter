@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
-    [SerializeField] GameObject _mainMenu, _mapSelect, _gunSelect , _settingPanel;
+    [SerializeField] GameObject _mainMenu, _mapSelect, _gunSelect , _settingPanel , _shopPanel;
     [SerializeField] GameObject _loaderCanvas;
     [SerializeField] Slider _progressBar;
     [SerializeField] AsyncSceneLoader _sceneLoader;
@@ -25,6 +26,11 @@ public class UI_Manager : MonoBehaviour
         //_settingPanel.SetActive(true);
     }
 
+    public void ShopBtn()
+    {
+        _mainMenu.SetActive(false);
+        _shopPanel.SetActive(true);
+    }
 
     public void MapSelect(string sceneName)
     {

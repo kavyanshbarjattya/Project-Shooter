@@ -1,18 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class WeaponShop : MonoBehaviour
 {
-    [SerializeField] Button[] _weaponsVisual;
+    public Button[] _weaponsVisual;
+    [SerializeField] GameObject[] _weaponsHolder;
 
     private void Start()
     {
-        for (int i = 0; i < _weaponsVisual.Length; i++)
+        print(PlayerPrefs.GetInt("Coins"));
+
+    }
+    private void Update()
+    {
+
+        for (int i = 0; i < _weaponsHolder.Length; i++)
         {
-            _weaponsVisual[i].interactable = false;
-            _weaponsVisual[0].interactable = true;
+            if (PlayerPrefs.GetInt("Coins")>= _weaponsHolder[i].GetComponent<Weapon_Rates>().rate)
+            {
+                _weaponsVisual[i].interactable = true;
+                Game_Manager.Instance.UnlockWeaponFromShop(i);
+            }
+            else
+            {
+                _weaponsVisual[i].interactable = false;
+            }
         }
     }
+
 }
