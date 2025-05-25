@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bullet
   - Coins
+  - Ammo
   layers:
   - Default
   - TransparentFX

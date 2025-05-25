@@ -1,8 +1,23 @@
+using TMPro;
 using UnityEngine;
 
 public class Coins_Manager : MonoBehaviour
 {
     public int Coins { get; private set; }
+    public static Coins_Manager instance;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
@@ -10,14 +25,6 @@ public class Coins_Manager : MonoBehaviour
         Coins = PlayerPrefs.GetInt("Coins", 0);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Coins"))
-        {
-            AddCoins(1); // Add 1 coin per pickup; customize if needed
-            Destroy(collision.gameObject);
-        }
-    }
 
     public void AddCoins(int amount)
     {
@@ -32,6 +39,15 @@ public class Coins_Manager : MonoBehaviour
     {
         Coins -= amount;
         Coins = Mathf.Max(Coins, 0); // Prevent going negative
+        PlayerPrefs.SetInt("Coins", Coins);
+        PlayerPrefs.Save();
+    }
+
+
+    public int GetCoins() => Coins;
+
+    private void SaveCoins()
+    {
         PlayerPrefs.SetInt("Coins", Coins);
         PlayerPrefs.Save();
     }

@@ -2,6 +2,7 @@ using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,6 +13,7 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] GameObject _loaderCanvas;
     [SerializeField] Slider _progressBar;
     [SerializeField] AsyncSceneLoader _sceneLoader;
+
 
     private string _sceneName;
 
@@ -43,7 +45,6 @@ public class UI_Manager : MonoBehaviour
     {
         _gunSelect.SetActive(false);
         _sceneLoader.LoadSceneAsync(_sceneName);  
-
     }
     public void QuitBtn()
     {

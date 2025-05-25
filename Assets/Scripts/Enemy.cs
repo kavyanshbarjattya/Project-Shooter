@@ -4,6 +4,7 @@ public class Enemy : MonoBehaviour
 {
     [HideInInspector] public string enemyType; // Set by spawner when enemy is activated
     private Enemy_Pool pool;
+    [SerializeField] GameObject _coin;
 
     public void Initialize(string typeName, Enemy_Pool enemyPool)
     {
@@ -35,6 +36,7 @@ public class Enemy : MonoBehaviour
         if (other.CompareTag("Bullet"))
         {
             ReturnToPool();
+            Instantiate(_coin, transform.position , Quaternion.identity);
             other.gameObject.SetActive(false);
         }
     }

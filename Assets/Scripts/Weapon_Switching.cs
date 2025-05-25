@@ -74,4 +74,5 @@ public class WeaponInfo
     [HideInInspector] public int _ammoLeft;
     public Image _gunImage;
     public bool _isUnlocked;
+    public float fireRate;
 }

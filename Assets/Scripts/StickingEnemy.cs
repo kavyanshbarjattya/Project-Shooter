@@ -54,6 +54,7 @@ public class StickingEnemy : EnemyBase
                 Handheld.Vibrate();
                 print("Vibrating");
             }
+            CameraShake.Instance?.Shake();
         }
         gameObject.SetActive(false); // Or return to pool
         _blastVisual.gameObject.SetActive(false);

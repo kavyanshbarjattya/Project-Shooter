@@ -3,7 +3,6 @@
 public class Player_Rotation : MonoBehaviour
 {
     [SerializeField] private FixedJoystick rightJoystick;
-    [SerializeField] private float fireRate = 0.2f;
     [SerializeField] private Transform firePoint;
     [SerializeField] private Bullet_Pool bulletPool;
     [SerializeField] private Transform _gunHolder;
@@ -46,7 +45,7 @@ public class Player_Rotation : MonoBehaviour
                 {
                     print("No ammo left");
                 }
-                fireCooldown = fireRate;
+                fireCooldown = _weapon_Switching.weaponInfos[_weapon_Switching._currentGunIndex].fireRate;
             }
         }
 
