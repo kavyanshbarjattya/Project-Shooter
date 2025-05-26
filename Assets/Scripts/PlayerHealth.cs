@@ -68,6 +68,12 @@ public class PlayerHealth : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+    
+    public void ReturnToMenu()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(0);
+    }
 
     public int GetCurrentHealth() => currentHealth;
 }
