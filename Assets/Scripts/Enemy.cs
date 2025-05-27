@@ -5,6 +5,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public string enemyType; // Set by spawner when enemy is activated
     private Enemy_Pool pool;
     [SerializeField] GameObject _coin;
+    [SerializeField] int _health;
 
     public void Initialize(string typeName, Enemy_Pool enemyPool)
     {
@@ -35,9 +36,24 @@ public class Enemy : MonoBehaviour
     {
         if (other.CompareTag("Bullet"))
         {
-            ReturnToPool();
+            if(_health > 0)
+            {
+                TakeDamage(other.gameObject.GetComponent<BulletMove>()._damage);
+            }
+            else
+            {
+                ReturnToPool();
+            }
             Instantiate(_coin, transform.position , Quaternion.identity);
             other.gameObject.SetActive(false);
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if(_health > 0)
+        {
+            _health -= damage;
         }
     }
 

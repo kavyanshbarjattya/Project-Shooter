@@ -14,11 +14,11 @@ public class SetCoinText : MonoBehaviour
 
     void OnEnable()
     {
-        _coinTxt.text = "Coins: " + PlayerPrefs.GetInt("Coins");
+        _coinTxt.text = PlayerPrefs.GetInt("Coins").ToString();
 
     }
     private void Update()
     {
-        _coinTxt.text = "Coins: " + PlayerPrefs.GetInt("Coins");
+        _coinTxt.text = PlayerPrefs.GetInt("Coins").ToString();
     }
 }

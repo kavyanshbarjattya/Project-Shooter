@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Unlocked_Weapon : MonoBehaviour
 {
-    [SerializeField] Image[] _guns;
+    [SerializeField] GameObject[] _guns;
     // Update is called once per frame
     void OnEnable()
     {
@@ -16,8 +16,8 @@ public class Unlocked_Weapon : MonoBehaviour
     {
         for (int i = 0; i < _guns.Length; i++)
         {
-            _guns[i].enabled = false;
-            _guns[i].enabled = Game_Manager.Instance.IsWeaponUnlocked(i);
+            _guns[i].SetActive(false);
+            _guns[i].SetActive(Game_Manager.Instance.IsWeaponUnlocked(i));
         }
     }
 }

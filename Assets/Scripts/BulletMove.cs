@@ -4,6 +4,7 @@ public class BulletMove : MonoBehaviour
 {
     [SerializeField] float speed = 10f;
     [SerializeField] float lifetime = 10f;
+    public int _damage;
 
     public SpriteRenderer _bulletSprite;
     Weapon_Switching _weaponSwitch;

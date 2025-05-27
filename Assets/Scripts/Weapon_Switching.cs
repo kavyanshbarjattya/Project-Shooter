@@ -20,7 +20,7 @@ public class Weapon_Switching : MonoBehaviour
             weaponInfos[i]._isUnlocked = Game_Manager.Instance.IsWeaponUnlocked(i);
 
             weaponInfos[i]._ammoLeft = weaponInfos[i]._totalAmmo;
-            weaponInfos[i]._totalAmmoTxt.text = "/ " + weaponInfos[i]._totalAmmo.ToString();
+            weaponInfos[i]._totalAmmoTxt.text = weaponInfos[i]._totalAmmo.ToString();
             weaponInfos[i]._ammoLeftText.text = weaponInfos[i]._ammoLeft.ToString();
             weaponInfos[i]._weaponUI.SetActive(false);
         }
@@ -57,7 +57,7 @@ public class Weapon_Switching : MonoBehaviour
         weaponInfos[index]._weaponUI.SetActive(true);
 
         weaponInfos[index]._ammoLeftText.text = weaponInfos[index]._ammoLeft.ToString();
-        weaponInfos[index]._totalAmmoTxt.text = "/ " + weaponInfos[index]._totalAmmo.ToString();
+        weaponInfos[index]._totalAmmoTxt.text = weaponInfos[index]._totalAmmo.ToString();
     }
 }
 

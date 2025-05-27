@@ -51,4 +51,9 @@ public class UI_Manager : MonoBehaviour
         Application.Quit();
         print("Quit");
     }
+
+    public void OpenLink(string link)
+    {
+        Application.OpenURL(link);
+    }
 }

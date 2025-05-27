@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class WeaponShop : MonoBehaviour
 {
-    public Image[] _weaponsVisual;                      // Show visual indication
-    [SerializeField] GameObject[] _weaponsHolder;       // Hold data & prices
+    public Image[] _weaponsVisual , _weaponLocked;                      // Show visual indication
+    [SerializeField] GameObject[] _weaponsHolder , _buyBtn;       // Hold data & prices
     [SerializeField] SetCoinText _setCoinText;          // UI coin text
 
     private void Start()
@@ -16,12 +16,16 @@ public class WeaponShop : MonoBehaviour
         {
             if (IsWeaponPurchased(i))
             {
+                _weaponLocked[i].enabled = false;
                 _weaponsVisual[i].enabled = true;
+                _buyBtn[i].SetActive(false);
                 Game_Manager.Instance.UnlockWeaponFromShop(i); // Tell GameManager
             }
             else
             {
-                _weaponsVisual[i].enabled = false;
+                _weaponLocked[i].enabled = true;
+                _buyBtn[i].SetActive(true);
+                
             }
         }
     }
@@ -42,6 +46,8 @@ public class WeaponShop : MonoBehaviour
             SetBool("WeaponPurchased_" + index, true);
             // Update visuals
             _weaponsVisual[index].enabled = true;
+            _weaponLocked[index].enabled = false;
+            _buyBtn[index].SetActive(false);
             Game_Manager.Instance.UnlockWeaponFromShop(index);
             // Update coin text
             _setCoinText._coinTxt.text = "Coins: " + Coins_Manager.instance.GetCoins();
